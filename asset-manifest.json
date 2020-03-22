@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.js": "/pi-planner/static/js/main.021a4f8c.chunk.js",
+    "main.js.map": "/pi-planner/static/js/main.021a4f8c.chunk.js.map",
+    "runtime-main.js": "/pi-planner/static/js/runtime-main.a7d3cd94.js",
+    "runtime-main.js.map": "/pi-planner/static/js/runtime-main.a7d3cd94.js.map",
+    "static/css/2.2bd37e2f.chunk.css": "/pi-planner/static/css/2.2bd37e2f.chunk.css",
+    "static/js/2.23802730.chunk.js": "/pi-planner/static/js/2.23802730.chunk.js",
+    "static/js/2.23802730.chunk.js.map": "/pi-planner/static/js/2.23802730.chunk.js.map",
+    "index.html": "/pi-planner/index.html",
+    "precache-manifest.1443932ee40799f7f582240cd60928f2.js": "/pi-planner/precache-manifest.1443932ee40799f7f582240cd60928f2.js",
+    "service-worker.js": "/pi-planner/service-worker.js",
+    "static/css/2.2bd37e2f.chunk.css.map": "/pi-planner/static/css/2.2bd37e2f.chunk.css.map",
+    "static/js/2.23802730.chunk.js.LICENSE.txt": "/pi-planner/static/js/2.23802730.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a7d3cd94.js",
+    "static/css/2.2bd37e2f.chunk.css",
+    "static/js/2.23802730.chunk.js",
+    "static/js/main.021a4f8c.chunk.js"
+  ]
+}
