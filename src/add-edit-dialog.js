@@ -15,9 +15,19 @@ import IconButton from "@material-ui/core/IconButton";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 const DependancyContainer = styled.div`
  
  
+`;
+const SelectWrap = styled.div`
+ margin-left:20px;
+  margin-top:10px;
 `;
 const DependancyContainerWrap = styled.div`
   display: flex;
@@ -31,7 +41,9 @@ const DependancyAction = styled.div`
 const ButtonWrap = styled.div`
 
 `;
-
+const EpicInputWrap = styled.div`
+width:60%;
+`;
 const useStyles = makeStyles(theme => ({
   root: {
     "& .MuiTextField-root": {
@@ -80,14 +92,33 @@ export default function FormDialog(props) {
                 onChange={handleTitleChange}
                 variant="outlined"
               />
-              <TextField
+             
+              <DependancyContainerWrap >
+              <EpicInputWrap><TextField
                 id="Epic"
                 label="EpiC details"
                 value={story.epic}
                 required
                 onChange={handleEpicChange}
                 variant="outlined"
-              />
+              /></EpicInputWrap>
+              <SelectWrap><FormControl  ><InputLabel id="demo-simple-select-label">Select an  Epic</InputLabel>
+        <Select style={{width:'150px'}}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={story.epic}
+          onChange={handleEpicChange}
+        >
+          {
+            props.epicList.map(epicItm=>(
+              <MenuItem value={epicItm}>{epicItm}</MenuItem>
+            ))
+          }
+         
+         
+        </Select></FormControl></SelectWrap>
+              
+      </DependancyContainerWrap>
               <TextField
                 id="outlined-multiline-static"
                 label="Story Description"

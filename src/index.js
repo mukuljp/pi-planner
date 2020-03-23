@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { initialData } from "./data/initial-data";
 import Column from "./column";
 import FormDialog from "./add-edit-dialog";
+import generateColor from 'material-color-hash';
 
 import UserListIcon from "./show-user-icon";
 
@@ -35,6 +36,8 @@ const CheckboxList = styled.div`
 const CheckboxItem = styled.div`
   border-radius: 2px;
   margin-right: 8px;
+  background-color:${props => (props.bgColor ? props.bgColor : "inherit")};
+  padding-left:8px;
 `;
 const FloatingAddContainer = styled.div`
   position: fixed;
@@ -80,15 +83,8 @@ class App extends React.Component {
 
   render() {
 
-    let epicList = [];
-    let strIds = Object.keys(this.state.piData.stories);
+    let epicList = this.getEpicList();
     
-    strIds.forEach(strItem=>{
-     
-      epicList.push(this.state.piData.stories[strItem].epic)
-    });
-    epicList = uniq(epicList);
-  
 
     return (
       <React.Fragment>
@@ -137,12 +133,14 @@ class App extends React.Component {
         
         <CheckboxList pos={'relative'}  >
           {epicList.map((epic, colomnIndex) => {
+            const color =generateColor(epic);
             const selectedEpicFound= this.state.piData.selectedEpics.find(epitem=>epitem===epic);
             return (
-              <CheckboxItem key={"switch" + colomnIndex}>
+              <CheckboxItem bgColor={color.backgroundColor} key={"switch" + colomnIndex}>
                 <label>
-                  {epic}
-                  <Checkbox
+                  <span style={{color:color.color}}>{epic}</span>
+                  <Checkbox style={{color:color.color}}
+                 
                     onChange={checked => {
                       this.onCheckEpicFilter(checked, epic);
                     }}
@@ -197,9 +195,22 @@ class App extends React.Component {
           addMoreDeps={this.addMoreDeps}
           removeDependancy={this.removeDependancy}
           handleClose={this.handleClose}
+          epicList = {this.getEpicList()}
         ></FormDialog>
       </React.Fragment>
     );
+  }
+
+  getEpicList=()=>{
+    let epicList = [];
+    let strIds = Object.keys(this.state.piData.stories);
+    
+    strIds.forEach(strItem=>{
+     
+      epicList.push(this.state.piData.stories[strItem].epic)
+    });
+    epicList = uniq(epicList);
+    return epicList;
   }
   handleClose=()=>{
     this.setState({
@@ -318,18 +329,33 @@ class App extends React.Component {
     });
   };
   handleFormSubmit = (storyId,isAddmode,story) => {
+    let selectedEpicsList =uniq([...this.state.piData.selectedEpics])
+    const stories = this.state.piData.stories;
+    // const storyIds = Object.keys(stories)
+    // storyIds.forEach(storyId=>{
+    //   if(selectedEpicsList.find(epicItm=>epicItm==stories[storyId].epic)){
+    //     stories[storyId].show =true;
+    //   }else{
+    //     stories[storyId].show =false;
+    //   }
+    // })
    // console.log(storyId,isAddmode,story);
-   story.show=true;
+   if(selectedEpicsList.find(epicItm=>epicItm==story.epic)){
+    story.show=true;
+   }else{
+    story.show=false;
+   }
+  
     if(!isAddmode){
       let newState ={
         ...this.state,
         piData:{
           ...this.state.piData,
           stories:{
-            ...this.state.piData.stories,
+            ...stories,
             [storyId]:story
           },
-          selectedEpics:uniq([...this.state.piData.selectedEpics,story.epic])
+          selectedEpics:selectedEpicsList
         },
         dialogOptions: { ...this.state.dialogOptions, open: false }
       };
@@ -342,7 +368,7 @@ class App extends React.Component {
         piData:{
           ...this.state.piData,
           stories:{
-            ...this.state.piData.stories,
+            ...stories,
             [story.id]:story
           },
           columns:{
@@ -352,7 +378,7 @@ class App extends React.Component {
               storyIds:[story.id,...this.state.piData.columns[todocolumn].storyIds]
             }
           },
-          selectedEpics:uniq([...this.state.piData.selectedEpics,story.epic])
+          selectedEpics:selectedEpicsList
         },
         dialogOptions: { ...this.state.dialogOptions, open: false }
       }

@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import generateColor from 'material-color-hash';
 const Container = styled.div`
   border-radius: 2px;
   padding: 8px;
@@ -35,7 +36,7 @@ const TaskContainer = styled.div`
   flex-grow: 1;
 `;
 const DragContainer = styled.div`
-  background: #a9d2fb;
+  background: ${props => props.bgColor};
   border-radius: 2px;
 `;
 
@@ -51,7 +52,9 @@ const HeaderContainer = styled.div`
 `;
 
 export default class Story extends React.Component {
+  
   render() {
+   let color = generateColor(this.props.story.epic);
     if(!this.props.story.show)return'';
     return (
       <Draggable draggableId={this.props.story.id} index={this.props.index}>
@@ -71,9 +74,9 @@ export default class Story extends React.Component {
             </DragContainer> */}
 
             <TaskContainer>
-              <DragContainer {...provided.dragHandleProps}>
+              <DragContainer bgColor={color.backgroundColor} {...provided.dragHandleProps}>
                 <Epic>
-                  <h2>{this.props.story.epic}</h2>
+                  <h2 style={{color:color.color}}>{this.props.story.epic}</h2>
                 </Epic>
               </DragContainer>
               <HeaderContainer>
